@@ -1,8 +1,70 @@
 :root {
   font-size: 16px;
+  font-family: monospace;
+  --background-color_primary: #ffffff;
+  --background-color_secondary: #eeeeee;
+  --background-color_accent: #82740f;
+  --foreground-color_primary: #111111;
+  --foreground-color_secondary: #eeeeee;
+  --foreground-color_accent: #b71c1c;
 }
 
-body {
+html, body {
   margin: 0;
-  font-family: monospace;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+input {
+  flex-grow: 1;
+  background-color: var(--background-color_secondary);
+}
+
+.input-wrapper {
+  display: inherit;
+  gap: inherit;
+}
+
+
+.book-card_container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  list-style-type: none;
+  margin: 0;
+  padding: 2em;
+}
+
+.book-card {
+  border: 1px solid var(--background-color_accent);
+  display: flex;
+  flex-direction: row;
+}
+
+.book-card_contents {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--background-color_primary);
+  color: var(--text-color_primary)
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.search-form_selectors {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
 }

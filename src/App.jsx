@@ -13,6 +13,7 @@ const Search = () => {
   const handleFormSubmit = async (ev) => {
     ev.preventDefault()
     const data = ev.target[0].value
+    if (!data) return
     ev.target[0].value = ''
     dispatch(setLoadingState())
     const res = await getBooks({ data, index: state.index, category: state.category })
@@ -23,7 +24,7 @@ const Search = () => {
   return(
     <div>
       <form className='search-form' onSubmit={handleFormSubmit}>
-        <div className='input-wrapper'><input /><button type='submit'>Search...</button></div>
+        <div className='input-wrapper'><input className='search-form_input' placeholder='Enter a book name...' /><button type='submit' className='search-form_submit-button'>Search</button></div>
       <div className='search-form_selectors'>
         <label htmlFor='category-selector'>Category: 
           <select id='category-selector' onChange={({ target }) => dispatch(changeCategory(target.value))}>
@@ -98,7 +99,7 @@ const App = () => {
 
   return(
     <div className='container'>
-      <h1>Google Books</h1>
+      <div className='container_title'>Google Books</div>
       <Search />
       <Routes>
         <Route path='/books/:id' element={<Book book={book} />} />

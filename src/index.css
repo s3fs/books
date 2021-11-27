@@ -5,7 +5,7 @@
   --background-color_secondary: #eeeeee;
   --background-color_accent: #82740f;
   --foreground-color_primary: #111111;
-  --foreground-color_secondary: #eeeeee;
+  --foreground-color_secondary: #555555;
   --foreground-color_accent: #b71c1c;
 }
 
@@ -18,9 +18,18 @@ html, body {
   height: 100%;
 }
 
-input {
+.search-form_input {
   flex-grow: 1;
-  background-color: var(--background-color_secondary);
+  font-size: inherit;
+}
+
+.container_title {
+  font-size: 2em;
+  padding: 0 0 0.5em 0;
+}
+
+.search-form_submit-button {
+  
 }
 
 .input-wrapper {
@@ -28,24 +37,59 @@ input {
   gap: inherit;
 }
 
+select {
+  font-size: inherit;
+}
 
 .book-card_container {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1em;
   list-style-type: none;
   margin: 0;
-  padding: 2em;
+  padding: 1em;
+}
+
+.book-card_image {
+  width: 4em;
+  height: auto;
 }
 
 .book-card {
-  border: 1px solid var(--background-color_accent);
   display: flex;
   flex-direction: row;
+  padding: 0.5em;
+  box-shadow: 0 0 0.5em 0.001em var(--background-color_accent);
+  border-radius: 0.5em;
+}
+
+.book-card:hover {
+  box-shadow: 0 0 0.8em 0.001em var(--background-color_accent);
 }
 
 .book-card_contents {
   display: flex;
   flex-direction: column;
+  padding: 0 0.5em;
+  gap: 0.2em;
+}
+
+.book-card_contents > span {
+  color: var(--foreground-color_secondary);
+}
+
+.book-card_contents__title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--foreground-color_primary) !important;
+}
+
+.book-card_contents__title:hover {
+  text-decoration: underline;
+}
+
+a {
+  text-decoration: none;
 }
 
 .container {
@@ -54,7 +98,8 @@ input {
   flex-direction: column;
   align-items: center;
   background-color: var(--background-color_primary);
-  color: var(--text-color_primary)
+  color: var(--text-color_primary);
+  margin: 1em;
 }
 
 .search-form {
@@ -67,4 +112,10 @@ input {
   display: flex;
   justify-content: space-between;
   gap: 1em;
+}
+
+@media only screen and (max-width: 350px) {
+  body {
+    font-size: 0.6em;
+  }
 }

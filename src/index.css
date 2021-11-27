@@ -3,9 +3,9 @@
   font-family: monospace;
   --background-color_primary: #ffffff;
   --background-color_secondary: #eeeeee;
-  --background-color_accent: #82740f;
-  --foreground-color_primary: #111111;
-  --foreground-color_secondary: #555555;
+  --background-color_accent: #8d8d8d;
+  --foreground-color_primary: #000000;
+  --foreground-color_secondary: #1d1d1d;
   --foreground-color_accent: #b71c1c;
 }
 
@@ -16,29 +16,49 @@ html, body {
 
 #root {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .search-form_input {
   flex-grow: 1;
-  font-size: inherit;
+  font-size: 1em;
+  padding: 0.5em;
 }
 
-.container_title {
-  font-size: 2em;
-  padding: 0 0 0.5em 0;
+input, select, button, a {
+  font-family: inherit;
+  border: none;
+  box-shadow: 0 0 0 1px var(--background-color_accent);
+  background-color: var(--background-color_primary);
+  border-radius: 0.2em;
+}
+
+select, button, a {
+  cursor: pointer;
+}
+
+select {
+  font-size: inherit;
+  padding: 0.2em;
+}
+
+*:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0.5em 0.001em var(--background-color_accent), 0 0 0 1px var(--background-color_accent) !important;
 }
 
 .search-form_submit-button {
-  
+  border: none;
+  background-color: var(--background-color_secondary);
+  font-size: 1em;
 }
 
 .input-wrapper {
   display: inherit;
   gap: inherit;
-}
-
-select {
-  font-size: inherit;
 }
 
 .book-card_container {
@@ -47,24 +67,34 @@ select {
   gap: 1em;
   list-style-type: none;
   margin: 0;
-  padding: 1em;
+  padding: 0;
+  align-self: stretch;
+  padding-bottom: 1em;
 }
 
 .book-card_image {
+  align-self: start;
   width: 4em;
   height: auto;
+}
+
+li {
+  display: flex;
+  flex-direction: column;
 }
 
 .book-card {
   display: flex;
   flex-direction: row;
-  padding: 0.5em;
-  box-shadow: 0 0 0.5em 0.001em var(--background-color_accent);
-  border-radius: 0.5em;
+  padding: 1em;
+  box-shadow: 0 0 0.3em 0.001em var(--background-color_accent);
+  border-radius: 0.2em;
+  flex-grow: 1;
 }
 
 .book-card:hover {
-  box-shadow: 0 0 0.8em 0.001em var(--background-color_accent);
+  box-shadow: 0 0 0.5em 0.001em var(--background-color_accent);
+  animation: book-card_hover-anim 0.2s forwards;
 }
 
 .book-card_contents {
@@ -72,6 +102,7 @@ select {
   flex-direction: column;
   padding: 0 0.5em;
   gap: 0.2em;
+  width: 10em;
 }
 
 .book-card_contents > span {
@@ -80,8 +111,8 @@ select {
 
 .book-card_contents__title {
   font-size: 1.2em;
-  font-weight: bold;
   color: var(--foreground-color_primary) !important;
+  word-wrap: break-word;
 }
 
 .book-card_contents__title:hover {
@@ -96,26 +127,46 @@ a {
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   background-color: var(--background-color_primary);
   color: var(--text-color_primary);
   margin: 1em;
+  max-width: 800px;
 }
 
 .search-form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 0.5em;
+  padding: 0 0 1em 0;
 }
 
 .search-form_selectors {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   gap: 1em;
+}
+
+@keyframes book-card_hover-anim {
+  to {
+    transform: scale(1.005)
+  }
 }
 
 @media only screen and (max-width: 350px) {
   body {
-    font-size: 0.6em;
+    font-size: 0.7em;
+  }
+}
+
+@media only screen and (min-width: 880px) {
+  .container {
+    padding-left:8%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .search-form_selectors {
+    justify-content: space-between;
   }
 }

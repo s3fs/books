@@ -57,13 +57,13 @@ const Books = ({ books }) => {
                 <img className='book-card_image' src={n.volumeInfo.imageLinks?.smallThumbnail }></img>
                 <div className='book-card_contents'>
                   <span className='book-card_contents__title'>
-                    {n.volumeInfo.title}
+                    {n.volumeInfo?.title.length > 40 ? `${n.volumeInfo?.title.substring(0, 40)}...`: n.volumeInfo?.title}
                   </span>
                   <span className='book-card_contents__categories'>
-                    {n.volumeInfo.categories}
+                    {n.volumeInfo?.categories}
                   </span>
                   <span className='book-card_contents__authors'>
-                    {n.volumeInfo.authors?.map(x => <span className='book-card_contents__authors__author' key={x}>{x}</span>)}
+                    {n.volumeInfo.authors?.join(', ')}
                   </span>
                 </div>
               </Link>
@@ -99,7 +99,6 @@ const App = () => {
 
   return(
     <div className='container'>
-      <div className='container_title'>Google Books</div>
       <Search />
       <Routes>
         <Route path='/books/:id' element={<Book book={book} />} />

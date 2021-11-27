@@ -1,15 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
-import { search, changeCategory, changeSort, setLoadingState } from "./reducers/bookReducer"
+import { search, changeCategory, changeSort, setLoadingState, loadMore } from "./reducers/bookReducer"
 import { getBooks } from "./services/bookService"
 import { Routes, Link, Route, useMatch } from "react-router-dom"
 
 const categoryOptions = ['All', 'Art', 'Biography', 'Computers', 'History', 'Medical', 'Poetry']
 const sortOptions = ['Relevance', 'Newest']
 
-const Search = () => {
-  const dispatch = useDispatch()
-  const state = useSelector(state => state)
-
+const Search = ({ dispatch, state }) => {
   const handleFormSubmit = async (ev) => {
     ev.preventDefault()
     const data = ev.target[0].value
@@ -17,7 +14,7 @@ const Search = () => {
     ev.target[0].value = ''
     dispatch(setLoadingState())
     const res = await getBooks({ data, index: state.index, category: state.category })
-    dispatch(search(res.items))
+    dispatch(search(res.items, data))
     dispatch(setLoadingState())
   }
 
@@ -42,36 +39,44 @@ const Search = () => {
   )
 }
 
-const Books = ({ books }) => {
-  if (books.length === 0) {
+const Books = ({ dispatch, state, books }) => {
+  if (books.length === 0 || books === undefined) {
     return null
   }
 
+  const loadMoreBooks = async () => {
+    const res = await getBooks({ data: state.query, index: state.index + 30, category: state.category })
+    dispatch(loadMore(res.items))
+  }
+
   return(
-    <ul className='book-card_container'>
-      {
-        books.map(n => {
-          return(
-            <li key={n.id}>
-              <Link className='book-card' to={`/books/${n.id}`}>
-                <img className='book-card_image' src={n.volumeInfo.imageLinks?.smallThumbnail }></img>
-                <div className='book-card_contents'>
-                  <span className='book-card_contents__title'>
-                    {n.volumeInfo?.title.length > 40 ? `${n.volumeInfo?.title.substring(0, 40)}...`: n.volumeInfo?.title}
-                  </span>
-                  <span className='book-card_contents__categories'>
-                    {n.volumeInfo?.categories}
-                  </span>
-                  <span className='book-card_contents__authors'>
-                    {n.volumeInfo.authors?.join(', ')}
-                  </span>
-                </div>
-              </Link>
-            </li>
-          )
-        })
-      }
-    </ul>
+    <div>
+      <ul className='book-card_container'>
+        {
+          books.map(n => {
+            return(
+              <li key={n.id}>
+                <Link className='book-card' to={`/books/${n.id}`}>
+                  <img className='book-card_image' src={n.volumeInfo?.imageLinks?.smallThumbnail }></img>
+                  <div className='book-card_contents'>
+                    <span className='book-card_contents__title'>
+                      {n.volumeInfo?.title?.length > 40 ? `${n.volumeInfo?.title.substring(0, 40)}...`: n.volumeInfo?.title}
+                    </span>
+                    <span className='book-card_contents__categories'>
+                      {n.volumeInfo?.categories}
+                    </span>
+                    <span className='book-card_contents__authors'>
+                      by {n.volumeInfo?.authors?.join(', ') || 'Author unknown'}
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            )
+          })
+        }
+      </ul>
+      <div className="pagination-button_container"><button className='pagination-button' onClick={loadMoreBooks}>Load more...</button></div>
+    </div>
   )
 }
 
@@ -91,18 +96,18 @@ const Book = ({ book }) => {
 }
 
 const App = () => {
-  const books = useSelector(({ books }) => books)
-  const loadingState = useSelector(({ loading }) => loading)
+  const dispatch = useDispatch()
+  const [books, loadingState, state] = useSelector(state => [state.books, state.loading, state])
 
   const match = useMatch('/books/:id')
   const book = match ? books.find(n => n.id === match.params.id) : null
 
   return(
     <div className='container'>
-      <Search />
+      <Search dispatch={dispatch} state={state} />
       <Routes>
         <Route path='/books/:id' element={<Book book={book} />} />
-        <Route path='/books' element={loadingState ? <div>Loading...</div> : <Books books={books}/>} />
+        <Route path='/books' element={loadingState ? <div className='loading-screen'>Loading... Please wait.</div> : <Books books={books} dispatch={dispatch} state={state} />} />
       </Routes>
     </div>
   )

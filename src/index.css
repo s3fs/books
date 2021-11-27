@@ -50,7 +50,7 @@ select {
   box-shadow: 0 0 0.5em 0.001em var(--background-color_accent), 0 0 0 1px var(--background-color_accent) !important;
 }
 
-.search-form_submit-button {
+button {
   border: none;
   background-color: var(--background-color_secondary);
   font-size: 1em;
@@ -145,6 +145,34 @@ a {
   display: flex;
   justify-content: start;
   gap: 1em;
+}
+
+.pagination-button_container {
+  text-align: center;
+  padding-bottom: 1em;
+}
+
+.pagination-button {
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+.loading-screen {
+  text-align: center;
+  font-size: 1.5em;
+  animation: loading-screen_blink 1s infinite;
+}
+
+@keyframes loading-screen_blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes book-card_hover-anim {

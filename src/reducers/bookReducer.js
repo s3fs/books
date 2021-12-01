@@ -1,13 +1,13 @@
-const bookReducer = (state = { books: [], query: null, index: 0, loading: false, category: 'All', sort: 'Relevance' }, action) => {
+const bookReducer = (state = { books: [], query: null, index: 0, loading: false, category: 'All', sort: 'Relevance', booksAmount: 0 }, action) => {
   switch (action.type) {
     case 'SEARCH':
       return {
         ...state,
         books: action.data,
-        query: action.query
+        query: action.query,
+        booksAmount: action.amount
       }
     case 'LOAD_MORE_BOOKS':
-      console.log(`action.data`, action.data)
       return {
         ...state,
         books: [...state.books, ...action.data],
@@ -33,11 +33,12 @@ const bookReducer = (state = { books: [], query: null, index: 0, loading: false,
   }
 }
 
-export const search = (data, query) => {
+export const search = (data, query, amount) => {
   return {
     type: 'SEARCH',
     data,
-    query
+    query,
+    amount
   }
 }
 

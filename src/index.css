@@ -1,6 +1,6 @@
 :root {
   font-size: 16px;
-  font-family: monospace;
+  font-family: "Roboto", "Noto", sans-serif;
   --background-color_primary: #ffffff;
   --background-color_secondary: #eeeeee;
   --background-color_accent: #8d8d8d;
@@ -12,6 +12,10 @@
 html, body {
   margin: 0;
   height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 #root {
@@ -27,7 +31,7 @@ html, body {
   padding: 0.5em;
 }
 
-input, select, button, a {
+input, select, button, .book-card {
   font-family: inherit;
   border: none;
   box-shadow: 0 0 0 1px var(--background-color_accent);
@@ -39,21 +43,30 @@ select, button, a {
   cursor: pointer;
 }
 
+h3 {
+  margin: 0 0 0.5em 0;
+}
+
 select {
   font-size: inherit;
   padding: 0.2em;
 }
 
-*:focus {
+*:focus:not(a) {
   outline: none;
   border: none;
   box-shadow: 0 0 0.5em 0.001em var(--background-color_accent), 0 0 0 1px var(--background-color_accent) !important;
+}
+
+*:focus:not(select, button) {
+  animation: hover 0.2s forwards;
 }
 
 button {
   border: none;
   background-color: var(--background-color_secondary);
   font-size: 1em;
+  padding: 0.5em;
 }
 
 .input-wrapper {
@@ -76,6 +89,7 @@ button {
   align-self: start;
   width: 4em;
   height: auto;
+  border-radius: 0.2em;
 }
 
 li {
@@ -94,7 +108,7 @@ li {
 
 .book-card:hover {
   box-shadow: 0 0 0.5em 0.001em var(--background-color_accent);
-  animation: book-card_hover-anim 0.2s forwards;
+  animation: hover 0.2s forwards;
 }
 
 .book-card_contents {
@@ -105,6 +119,46 @@ li {
   width: 10em;
 }
 
+.book-page_container {
+  display: flex;
+  align-items: center;
+}
+
+.book-page_container > img {
+  height: 12em;
+  width: auto;
+}
+
+.book-page_contents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1em;
+}
+
+.book-page_image {
+  border-radius: 0.5em;
+}
+
+.book-page_contents__title {
+  font-size: 1.5em;
+  word-wrap: break-word;
+  font-weight: bold;
+  color: var(--foreground-color_secondary);
+}
+
+.book-page_description {
+  text-align: justify;
+  margin: 1em 0;
+}
+
+.book-card_contents_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 1em;
+}
+
 .book-card_contents > span {
   color: var(--foreground-color_secondary);
 }
@@ -112,7 +166,7 @@ li {
 .book-card_contents__title {
   font-size: 1.2em;
   color: var(--foreground-color_primary) !important;
-  word-wrap: break-word;
+  word-wrap: normal;
 }
 
 .book-card_contents__title:hover {
@@ -121,6 +175,10 @@ li {
 
 a {
   text-decoration: none;
+}
+
+Link:hover {
+  text-decoration: underline;
 }
 
 .container {
@@ -152,18 +210,34 @@ a {
   padding-bottom: 1em;
 }
 
-.pagination-button {
-  padding: 0.5em;
-  font-size: 1em;
+.loading {
+  animation: blink 1s infinite;
 }
 
-.loading-screen {
+.screen {
   text-align: center;
   font-size: 1.5em;
-  animation: loading-screen_blink 1s infinite;
+  color: var(--foreground-color_secondary);
 }
 
-@keyframes loading-screen_blink {
+.faux {
+  display: flex;
+  grid-template-columns: repeat(auto-fit(500px, 1fr));
+  gap: 1em;
+}
+
+.faux:hover {
+  animation: none !important;
+  cursor: inherit;
+  box-shadow: inherit;
+}
+
+.faux img {
+  height: 10em;
+  width: 10em;
+}
+
+@keyframes blink {
   0% {
     opacity: 1;
   }
@@ -175,9 +249,9 @@ a {
   }
 }
 
-@keyframes book-card_hover-anim {
+@keyframes hover{
   to {
-    transform: scale(1.005)
+    transform: scale(1.02)
   }
 }
 

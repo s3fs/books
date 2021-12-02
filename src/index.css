@@ -5,7 +5,7 @@
   --background-color_secondary: #eeeeee;
   --background-color_accent: #8d8d8d;
   --foreground-color_primary: #000000;
-  --foreground-color_secondary: #1d1d1d;
+  --foreground-color_secondary: #2c2c2c;
   --foreground-color_accent: #b71c1c;
 }
 
@@ -138,6 +138,8 @@ li {
 
 .book-page_image {
   border-radius: 0.5em;
+  width: auto;
+  height: 10em;
 }
 
 .book-page_contents__title {
@@ -220,23 +222,6 @@ Link:hover {
   color: var(--foreground-color_secondary);
 }
 
-.faux {
-  display: flex;
-  grid-template-columns: repeat(auto-fit(500px, 1fr));
-  gap: 1em;
-}
-
-.faux:hover {
-  animation: none !important;
-  cursor: inherit;
-  box-shadow: inherit;
-}
-
-.faux img {
-  height: 10em;
-  width: 10em;
-}
-
 @keyframes blink {
   0% {
     opacity: 1;
@@ -270,5 +255,9 @@ Link:hover {
 @media only screen and (max-width: 500px) {
   .search-form_selectors {
     justify-content: space-between;
+  }
+
+  .book-page_contents__title {
+    font-size: 1em;
   }
 }

@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
+import { useRef } from "react"
 import { search, changeCategory, changeSort, setLoadingState, loadMore } from "./reducers/bookReducer"
 import { getBooks } from "./services/bookService"
 import { Routes, Link, Route, useMatch, useNavigate } from "react-router-dom"
+import stringGenerator from "./utils/words"
 
 const categoryOptions = ['All', 'Art', 'Biography', 'Computers', 'History', 'Medical', 'Poetry']
 const sortOptions = ['Relevance', 'Newest']
@@ -47,15 +49,28 @@ const Books = ({ dispatch, state, books }) => {
     return <h3 className='screen'>Hmm. No results for that.</h3>
   }
 
-  if (books.length === 0) {
-    return <h3 className='screen'>Hi! Start searching the library by entering a title above.</h3>
-  }
-
+  const stringSuggestion = stringGenerator()
   const loadMoreBooks = async () => {
     const res = await getBooks({ data: state.query, index: state.index + 30, category: state.category })
     dispatch(loadMore(res.items))
   }
 
+  const loadSuggestion = async (data) => {
+    dispatch(setLoadingState())
+    const res = await getBooks({ data, index: state.index, category: state.category })
+    dispatch(search(res.items, data, res.totalItems))
+    dispatch(setLoadingState())
+  }
+
+  if (books.length === 0) {
+    return(
+      <div>
+        <h3 className='screen'>Hi! Start searching the library by entering a title above.</h3>
+        <h3 className='screen'>Need inspiration? How about <Link to='/books/' onClick={() => loadSuggestion(stringSuggestion)}>{stringSuggestion}</Link>?</h3>
+      </div>
+    )
+  }
+  
   const sortedBooks = state.sort === 'Relevance' ? books : [...books].sort((a, b) => Number(b.volumeInfo?.publishedDate?.substring(0, 4)) - Number(a.volumeInfo?.publishedDate?.substring(0, 4)))
 
   return(

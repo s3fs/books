@@ -45,7 +45,7 @@ const Search = ({ dispatch, state }) => {
 }
 
 const Books = ({ dispatch, state, books }) => {
-  if (books === undefined) {
+  if (!books) {
     return <h3 className='screen'>Hmm. No results for that.</h3>
   }
 
@@ -85,7 +85,7 @@ const Books = ({ dispatch, state, books }) => {
 }
 
 const Book = ({ book, page }) => {
-  if (book === null || book === undefined) {
+  if (!book) {
     return(
       <h3 className='screen'>No such book. <Link to='/books'>Go to the main page.</Link></h3>
     )
